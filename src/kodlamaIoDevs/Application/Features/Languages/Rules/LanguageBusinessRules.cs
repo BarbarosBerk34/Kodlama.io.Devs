@@ -25,7 +25,7 @@ namespace Application.Features.Languages.Rules
             if (result.Items.Any()) throw new BusinessException("Programming language name exists.");
         }
 
-        public void LanguageShouldExistWhenRequested(Language language)
+        public void LanguageShouldExistWhenRequested(Language? language)
         {
             if (language == null) throw new BusinessException("Requested programming language does not exist.");
         }
