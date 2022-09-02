@@ -22,7 +22,12 @@ namespace Application.Features.Languages.Rules
         public async Task LanguageNameCanNotBeDuplicatedWhenInserted(string name)
         {
             IPaginate<Language> result = await _languageRepository.GetListAsync(l => l.Name == name);
-            if (result.Items.Any()) throw new BusinessException("Programming Language name exists.");
+            if (result.Items.Any()) throw new BusinessException("Programming language name exists.");
+        }
+
+        public void LanguageShouldExistWhenRequested(Language language)
+        {
+            if (language == null) throw new BusinessException("Requested programming language does not exist.");
         }
     }
 }

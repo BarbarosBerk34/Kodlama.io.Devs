@@ -1,6 +1,8 @@
 ﻿using Application.Features.Languages.Commands.CreateLanguage;
 using Application.Features.Languages.Dtos;
+using Application.Features.Languages.Models;
 using AutoMapper;
+using Core.Persistence.Paging;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,9 @@ namespace Application.Features.Languages.Profiles
         {
             CreateMap<Language, CreatedLanguageDto>().ReverseMap();
             CreateMap<Language, CreateLanguageCommand>().ReverseMap();
+            CreateMap<IPaginate<Language>, LanguageListModel>().ReverseMap();
+            CreateMap<Language, LanguageListDto>().ReverseMap();
+            CreateMap<Language, LanguageGetByIdDto>().ReverseMap();
         }
     }
 }
