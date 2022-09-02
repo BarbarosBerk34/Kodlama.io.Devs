@@ -1,4 +1,6 @@
 ﻿using Application.Features.Languages.Commands.CreateLanguage;
+using Application.Features.Languages.Commands.DeleteLanguage;
+using Application.Features.Languages.Commands.UpdateLanguage;
 using Application.Features.Languages.Dtos;
 using Application.Features.Languages.Models;
 using Application.Features.Languages.Queries.GetByIdLanguage;
@@ -13,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class LanguageController : BaseController
     {
@@ -37,6 +39,20 @@ namespace WebAPI.Controllers
         {
             LanguageGetByIdDto languageGetByIdDto = await Mediator.Send(getByIdLanguageQuery);
             return Ok(languageGetByIdDto);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateLanguageCommand updateLanguageCommand)
+        {
+            UpdatedLanguageDto result = await Mediator.Send(updateLanguageCommand);
+            return Ok(result);
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete([FromRoute] DeleteLanguageCommand deleteLanguageCommand)
+        {
+            DeletedLanguageDto result = await Mediator.Send(deleteLanguageCommand);
+            return Ok(result);
         }
     }
 }

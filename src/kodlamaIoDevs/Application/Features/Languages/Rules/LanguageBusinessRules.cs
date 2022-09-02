@@ -19,7 +19,7 @@ namespace Application.Features.Languages.Rules
             _languageRepository = languageRepository;
         }
 
-        public async Task LanguageNameCanNotBeDuplicatedWhenInserted(string name)
+        public async Task LanguageNameCanNotBeDuplicatedWhenInsertedOrUpdated(string name)
         {
             IPaginate<Language> result = await _languageRepository.GetListAsync(l => l.Name == name);
             if (result.Items.Any()) throw new BusinessException("Programming language name exists.");
@@ -28,6 +28,12 @@ namespace Application.Features.Languages.Rules
         public void LanguageShouldExistWhenRequested(Language language)
         {
             if (language == null) throw new BusinessException("Requested programming language does not exist.");
+        }
+
+        public async Task LanguageShouldExistWhenDeleted(int id)
+        {
+            Language? result = await _languageRepository.GetAsync(l => l.Id == id);
+            if (result == null) throw new BusinessException("To be deleted programming language does not exist.");
         }
     }
 }
