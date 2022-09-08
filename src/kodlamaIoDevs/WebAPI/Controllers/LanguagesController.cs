@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class LanguageController : BaseController
+    public class LanguagesController : BaseController
     {
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CreateLanguageCommand createLanguageCommand)
