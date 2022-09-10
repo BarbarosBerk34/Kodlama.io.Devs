@@ -28,7 +28,7 @@ namespace Application.Features.Technologies.Commands.CreateTechnology
             }
 
             public async Task<CreatedTechnologyDto> Handle(CreateTechnologyCommand request, CancellationToken cancellationToken)
-            {
+            {             
 
                 Technology mappedTechnology = _mapper.Map<Technology>(request);
                 Technology createdTechnology = await _technologyRepository.AddAsync(mappedTechnology);
