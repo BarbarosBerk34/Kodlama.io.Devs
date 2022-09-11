@@ -7,15 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\GitHubAddresses\Commands\CreateGitHubAddress\" />
-    <Folder Include="Features\GitHubAddresses\Commands\DeleteGitHubAddress\" />
-    <Folder Include="Features\GitHubAddresses\Commands\UpdateGitHubAddress\" />
     <Folder Include="Features\GitHubAddresses\Constants\" />
-    <Folder Include="Features\GitHubAddresses\Dtos\" />
-    <Folder Include="Features\GitHubAddresses\Models\" />
-    <Folder Include="Features\GitHubAddresses\Profiles\" />
-    <Folder Include="Features\GitHubAddresses\Queries\" />
-    <Folder Include="Features\GitHubAddresses\Rules\" />
     <Folder Include="Features\Languages\Constants\" />
     <Folder Include="Features\Technologies\Constants\" />
     <Folder Include="Features\Users\Constants\" />
