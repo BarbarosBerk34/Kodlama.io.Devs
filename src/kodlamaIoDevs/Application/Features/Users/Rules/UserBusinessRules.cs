@@ -24,12 +24,12 @@ namespace Application.Features.Users.Rules
             if (user != null) throw new BusinessException("Entered email already registered.");
         }
 
-        public static void UserShouldBeExistWhenLoggedIn(User? user)
+        public void UserShouldBeExistWhenLoggedIn(User? user)
         {
             if (user == null) throw new BusinessException("Requested user does not exist.");
         }
 
-        public static void UserCredentialsShouldBeMatchWhenLoggedIn(User user, string password)
+        public void UserCredentialsShouldBeMatchWhenLoggedIn(User user, string password)
         {
             bool isUserPasswordNotVerified = !HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
             if (isUserPasswordNotVerified) throw new BusinessException("User credentials does not match.");

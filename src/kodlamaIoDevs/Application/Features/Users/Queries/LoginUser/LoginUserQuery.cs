@@ -35,8 +35,8 @@ namespace Application.Features.Users.Queries.LoginUser
             {
                 User? user = await _userRepository.GetAsync(u => u.Email == request.Email);
 
-                UserBusinessRules.UserShouldBeExistWhenLoggedIn(user);
-                UserBusinessRules.UserCredentialsShouldBeMatchWhenLoggedIn(user!, request.Password);
+                _userBusinessRules.UserShouldBeExistWhenLoggedIn(user);
+                _userBusinessRules.UserCredentialsShouldBeMatchWhenLoggedIn(user!, request.Password);
 
                 IList<OperationClaim> operationClaims = _userRepository.GetClaims(user!);
 

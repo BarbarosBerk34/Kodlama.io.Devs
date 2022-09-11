@@ -1,4 +1,5 @@
 ﻿using Application.Features.Technologies.Dtos;
+using Application.Features.Technologies.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -21,17 +22,22 @@ namespace Application.Features.Technologies.Commands.UpdateTechnology
         {
             private readonly IMapper _mapper;
             private readonly ITechnologyRepository _technologyRepository;
+            private readonly TechnologyBusinessRules _technologyBusinessRules;
 
-            public UpdateTechnologyCommandHandler(IMapper mapper, ITechnologyRepository technologyRepository)
+            public UpdateTechnologyCommandHandler(IMapper mapper, ITechnologyRepository technologyRepository, TechnologyBusinessRules technologyBusinessRules)
             {
                 _mapper = mapper;
                 _technologyRepository = technologyRepository;
+                _technologyBusinessRules = technologyBusinessRules;
             }
 
             public async Task<UpdatedTechnologyDto> Handle(UpdateTechnologyCommand request, CancellationToken cancellationToken)
             {
-                Technology mappedTechnology = _mapper.Map<Technology>(request);
-                Technology updatedTechnology = await _technologyRepository.UpdateAsync(mappedTechnology);
+                Technology? existingTechnology = await _technologyBusinessRules.TechnologyShouldExistWhenUpdated(request.Id);
+                existingTechnology.Name = request.Name;
+                existingTechnology.LanguageId = request.LanguageId;
+
+                Technology updatedTechnology = await _technologyRepository.UpdateAsync(existingTechnology);
                 UpdatedTechnologyDto updatedTechnologyDto = _mapper.Map<UpdatedTechnologyDto>(updatedTechnology);
                 return updatedTechnologyDto;
             }

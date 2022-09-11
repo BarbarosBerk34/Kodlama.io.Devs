@@ -18,16 +18,18 @@ namespace Application.Features.GitHubAddresses.Rules
             _gitHubAddressRepository = gitHubAddressRepository;
         }
 
+
         public async Task GitHubAddressShouldExistWhenDeleted(int id)
         {
             GitHubAddress? result = await _gitHubAddressRepository.GetAsync(g => g.Id == id);
             if (result == null) throw new BusinessException("To be deleted GitHub address does not exist.");
         }
 
-        public async Task GitHubAddressShouldExistWhenUpdated(int id)
+        public async Task<GitHubAddress> GitHubAddressShouldExistWhenUpdated(int id)
         {
             GitHubAddress? result = await _gitHubAddressRepository.GetAsync(g => g.Id == id);
             if (result == null) throw new BusinessException("To be updated GitHub address does not exist.");
+            return result;
         }
     }
 }

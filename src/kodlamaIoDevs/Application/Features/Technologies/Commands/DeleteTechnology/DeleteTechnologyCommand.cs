@@ -1,6 +1,7 @@
 ﻿using Application.Features.Languages.Commands.DeleteLanguage;
 using Application.Features.Languages.Dtos;
 using Application.Features.Technologies.Dtos;
+using Application.Features.Technologies.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -21,16 +22,19 @@ namespace Application.Features.Technologies.Commands.DeleteTechnology
         {
             private readonly ITechnologyRepository _technologyRepository;
             private readonly IMapper _mapper;
+            private readonly TechnologyBusinessRules _technologyBusinessRules;
 
-            public DeleteTechnologyCommandHandler(ITechnologyRepository technologyRepository, IMapper mapper)
+            public DeleteTechnologyCommandHandler(ITechnologyRepository technologyRepository, IMapper mapper, TechnologyBusinessRules technologyBusinessRules)
             {
                 _technologyRepository = technologyRepository;
                 _mapper = mapper;
+                _technologyBusinessRules = technologyBusinessRules;
             }
 
             public async Task<DeletedTechnologyDto> Handle(DeleteTechnologyCommand request, CancellationToken cancellationToken)
             {
                 Technology? technology = await _technologyRepository.GetAsync(t => t.Id == request.Id);
+                _technologyBusinessRules.TechnologyShouldExistWhenDeleted(technology);
 
                 Technology deletedTechnology = await _technologyRepository.DeleteAsync(technology!);
                 DeletedTechnologyDto deletedTechnologyDto = _mapper.Map<DeletedTechnologyDto>(deletedTechnology);

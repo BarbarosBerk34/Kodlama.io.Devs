@@ -33,8 +33,10 @@ namespace Application.Features.GitHubAddresses.Commands.UpdateGitHubAddress
 
             public async Task<UpdatedGitHubAddressDto> Handle(UpdateGitHubAddressCommand request, CancellationToken cancellationToken)
             {
-                GitHubAddress? mappedGitHubAddress = _mapper.Map<GitHubAddress>(request);
-                GitHubAddress updatedGitHubAddress = await _gitHubAddressRepository.UpdateAsync(mappedGitHubAddress);
+                GitHubAddress? existingGitHubAddress = await _gitHubAddressBusinessRules.GitHubAddressShouldExistWhenUpdated(request.Id);
+                existingGitHubAddress.Url = request.Url;
+                existingGitHubAddress.UserId = request.UserId;
+                GitHubAddress updatedGitHubAddress = await _gitHubAddressRepository.UpdateAsync(existingGitHubAddress);
                 UpdatedGitHubAddressDto updatedGitHubAddressDto = _mapper.Map<UpdatedGitHubAddressDto>(updatedGitHubAddress);
                 return updatedGitHubAddressDto;
             }

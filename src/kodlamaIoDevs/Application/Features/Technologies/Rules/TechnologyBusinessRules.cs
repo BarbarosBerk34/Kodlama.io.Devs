@@ -27,13 +27,19 @@ namespace Application.Features.Technologies.Rules
 
         public void TechnologyShouldExistWhenRequested(Technology? technology)
         {
-            if (technology == null) throw new BusinessException("Requested programming technology language does not exist.");
+            if (technology == null) throw new BusinessException("Requested programming language technology does not exist.");
         }
 
-        public async Task LanguageShouldExistWhenDeleted(int id)
+        public async Task<Technology> TechnologyShouldExistWhenUpdated(int id)
         {
-            Technology? result = await _technologyRepository.GetAsync(t => t.Id == id);
-            if (result == null) throw new BusinessException("To be deleted programming language technology does not exist.");
+            Technology? technology = await _technologyRepository.GetAsync(t => t.Id == id); 
+            if (technology == null) throw new BusinessException("To be updated programming language technology does not exist.");
+            return technology;
+        }
+
+        public void TechnologyShouldExistWhenDeleted(Technology? technology)
+        {
+            if (technology == null) throw new BusinessException("To be deleted programming language technology does not exist.");
         }
     }
 }

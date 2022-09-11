@@ -33,9 +33,9 @@ namespace Application.Features.Languages.Commands.UpdateLanguage
             public async Task<UpdatedLanguageDto> Handle(UpdateLanguageCommand request, CancellationToken cancellationToken)
             {
                 await _languageBusinessRules.LanguageNameCanNotBeDuplicatedWhenInsertedOrUpdated(request.Name);
-
-                Language mappedLanguage = _mapper.Map<Language>(request);
-                Language updatedLanguage = await _languageRepository.UpdateAsync(mappedLanguage);
+                Language? existingLanguage = await _languageBusinessRules.LanguageShouldExistWhenUpdated(request.Id);
+                existingLanguage.Name = request.Name;
+                Language updatedLanguage = await _languageRepository.UpdateAsync(existingLanguage);
                 UpdatedLanguageDto updatedLanguageDto = _mapper.Map<UpdatedLanguageDto>(updatedLanguage);
 
                 return updatedLanguageDto;
