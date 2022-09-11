@@ -30,6 +30,13 @@ namespace Application.Features.Languages.Rules
             if (language == null) throw new BusinessException("Requested programming language does not exist.");
         }
 
+        public async Task<Language> LanguageShouldExistWhenUpdated(int id)
+        {
+            Language? result = await _languageRepository.GetAsync(l => l.Id == id);
+            if (result == null) throw new BusinessException("To be updated programming language does not exist.");
+            return result;
+        }
+
         public async Task LanguageShouldExistWhenDeleted(int id)
         {
             Language? result = await _languageRepository.GetAsync(l => l.Id == id);
