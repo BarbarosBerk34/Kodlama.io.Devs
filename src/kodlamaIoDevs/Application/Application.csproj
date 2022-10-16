@@ -9,9 +9,11 @@
   <ItemGroup>
     <Folder Include="Features\GitHubAddresses\Constants\" />
     <Folder Include="Features\Languages\Constants\" />
+    <Folder Include="Features\OperationClaims\Constants\" />
     <Folder Include="Features\Technologies\Constants\" />
     <Folder Include="Features\Auths\Constants\" />
     <Folder Include="Features\Auths\Models\" />
+    <Folder Include="Features\UserOperationClaims\Constants\" />
   </ItemGroup>
 
 	<ItemGroup>
