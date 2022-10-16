@@ -10,8 +10,8 @@
     <Folder Include="Features\GitHubAddresses\Constants\" />
     <Folder Include="Features\Languages\Constants\" />
     <Folder Include="Features\Technologies\Constants\" />
-    <Folder Include="Features\Users\Constants\" />
-    <Folder Include="Features\Users\Models\" />
+    <Folder Include="Features\Auths\Constants\" />
+    <Folder Include="Features\Auths\Models\" />
   </ItemGroup>
 
 	<ItemGroup>

@@ -1,6 +1,8 @@
-﻿using Application.Features.Users.Commands.RegisterUser;
-using Application.Features.Users.Dtos;
-using Application.Features.Users.Queries.LoginUser;
+﻿using Application.Features.Auths.Commands.Register;
+using Application.Features.Auths.Dtos;
+using Application.Features.Auths.Queries.LoginUser;
+using Core.Security.Dtos;
+using Core.Security.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,17 +17,37 @@ namespace WebAPI.Controllers
     public class AuthController : BaseController
     {
         [HttpPost]
-        public async Task<ActionResult> Register([FromBody] RegisterUserCommand registerUserCommand)
+        public async Task<ActionResult> Register([FromBody] UserForRegisterDto userForRegisterDto)
         {
-            RegisteredUserDto result = await Mediator.Send(registerUserCommand);
-            return Created("", result);
+            RegisterCommand registerCommand = new()
+            {
+                UserForRegisterDto = userForRegisterDto,
+                IpAddress = GetIpAddress()
+            };
+
+            RegisteredDto result = await Mediator.Send(registerCommand);
+            SetRefreshTokenToCookie(result.RefreshToken);
+            return Created("", result.AccessToken);
+        }
+
+        private void SetRefreshTokenToCookie(RefreshToken refreshToken)
+        {
+            CookieOptions cookieOptions = new() { HttpOnly = true, Expires = DateTime.Now.AddDays(7) };
+            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginUserQuery loginUserQuery)
+        public async Task<IActionResult> Login([FromBody] UserForLoginDto userForLoginDto)
         {
-            LoggedInUserDto result = await Mediator.Send(loginUserQuery);
-            return Ok(result);
+            LoginQuery loginQuery = new()
+            {
+                UserForLoginDto = userForLoginDto,
+                IpAddress = GetIpAddress()
+            };
+
+            LoggedInDto result = await Mediator.Send(loginQuery);
+            SetRefreshTokenToCookie(result.RefreshToken);
+            return Ok(result.AccessToken);
         }
     }
 }

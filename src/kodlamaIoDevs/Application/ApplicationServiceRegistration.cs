@@ -1,7 +1,7 @@
 ﻿using Application.Features.GitHubAddresses.Rules;
 using Application.Features.Languages.Rules;
 using Application.Features.Technologies.Rules;
-using Application.Features.Users.Rules;
+using Application.Features.Auths.Rules;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
 using MediatR;
@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Services.AuthServices;
 
 namespace Application
 {
@@ -25,7 +26,7 @@ namespace Application
 
             services.AddScoped<LanguageBusinessRules>();
             services.AddScoped<TechnologyBusinessRules>();
-            services.AddScoped<UserBusinessRules>();
+            services.AddScoped<AuthBusinessRules>();
             services.AddScoped<GitHubAddressBusinessRules>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -34,6 +35,8 @@ namespace Application
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheRemovingBehavior<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+            services.AddScoped<IAuthService, AuthManager>();
 
             return services;
 
